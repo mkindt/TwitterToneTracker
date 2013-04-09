@@ -1,15 +1,10 @@
 
-/**
- * Module dependencies.
- */
-
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
   , http = require('http')
-  , path = require('path');
-
-var app = express();
+  , path = require('path')
+  , app = express();
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -33,6 +28,15 @@ app.get("/", function (req, res) {
   var response = "hello there";
   //res.send("hi");
   res.send(response);
+});
+
+app.get("/goodbye", function (req, res) {
+  //send "Goodbye World" to the client as html
+  res.send("Goodbye World!");
+});
+
+app.get("/login", function (req, res) {
+  res.send("You need to login!");
 });
 // app.get("todos.json", function (req,res) {
 // client.mget....
