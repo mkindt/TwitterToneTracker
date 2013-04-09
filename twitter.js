@@ -23,10 +23,10 @@ t.stream(
             console.log(tweet.text);
             //if awesome is in the tweet text, increment the counter                                                                                                                                                                        
             if(tweet.text.match(/shouldnt/)) { //if (tweet.text.indexOf("awesome") > -1)
-                client.incr('awesome');
+                client.incr('shouldnt');
             }
             if(tweet.text.indexOf("cant") > -1) { //regular expression .match may be better
-              client.incr("cool");
+              client.incr("cant");
             }
         });
     }
@@ -35,7 +35,7 @@ t.stream(
 var numberOfServerHits = 0;
 http.createServer(function (req, res) {
     var response = "";
-    client.mget(["awesome", "cool"], function (error, resultCounts) {  //switched get to mget
+    client.mget(["shouldnt", "cant"], function (error, resultCounts) {  //switched get to mget
         if (error !== null) {
             //handle error here
             console.log("error: " + error);
@@ -45,9 +45,9 @@ http.createServer(function (req, res) {
             // response = "<html>";
             // response = "<html>";
             response += "this is the first line...\n";
-            response += "this server has been hit " + numberOfServerHits + "times...\n";
-            response += "there were recently " +resultCounts[0] + "awesome things on twitter...\n"
-            response += "The cool count is " + resultCounts[1];
+            response += "this server has been hit " + numberOfServerHits + " times...\n";
+            response += "there were recently " +resultCounts[0] + " bummed out -shouldnt- words...\n"
+            response += "The sad -cant- count is " + resultCounts[1];
             // response = "</html>";
             res.end(response);
         }

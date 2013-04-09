@@ -4,6 +4,7 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
+  , redisClient = require("redis").createClient()
   , app = express();
 
 app.configure(function(){
@@ -37,6 +38,21 @@ app.get("/goodbye", function (req, res) {
 
 app.get("/login", function (req, res) {
   res.send("You need to login!");
+});
+
+app.get("/counts.json", function	(req, res) {
+    redisClient.get("cant", function	(error, cantCount) {
+	if (error !== null) {
+            // handle error here                                                                                                                       
+            console.log("ERROR: " + error);
+        } else {
+            var jsonObject = {
+		            "cant":cantCount
+            };
+            // use res.json to return JSON objects instead of strings
+            res.json(jsonObject);
+        }
+    });
 });
 // app.get("todos.json", function (req,res) {
 // client.mget....
