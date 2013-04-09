@@ -41,13 +41,14 @@ app.get("/login", function (req, res) {
 });
 
 app.get("/counts.json", function	(req, res) {
-    redisClient.get("cant", function	(error, cantCount) {
+    redisClient.mget(["shouldnt", "cant"], function	(error, results) {
 	if (error !== null) {
             // handle error here                                                                                                                       
             console.log("ERROR: " + error);
         } else {
             var jsonObject = {
-		            "cant":cantCount
+		            "shouldnt":results[0],
+                "cant":results[1]
             };
             // use res.json to return JSON objects instead of strings
             res.json(jsonObject);
