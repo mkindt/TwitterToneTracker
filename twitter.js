@@ -1,5 +1,12 @@
 var twitter = require('ntwitter');
+var redis = require('redis');
 var credentials = require('./credentials.js');
+
+var http = require("http");
+//create redis client                                                                                                                                                                                                                       
+var client = redis.createClient();
+
+
 
 var t = new twitter({
     consumer_key: credentials.consumer_key,
@@ -10,10 +17,39 @@ var t = new twitter({
 
 t.stream(
     'statuses/filter',
-    { track: ['awesome', 'cool', 'rad', 'gnarly', 'groovy'] },
+    { track: [ 'shouldnt', 'cant' ] }, // 'awesome', 'cool', 'rad', 'gnarly', 'groovy'] },
     function(stream) {
         stream.on('data', function(tweet) {
             console.log(tweet.text);
+            //if awesome is in the tweet text, increment the counter                                                                                                                                                                        
+            if(tweet.text.match(/shouldnt/)) { //if (tweet.text.indexOf("awesome") > -1)
+                client.incr('awesome');
+            }
+            if(tweet.text.indexOf("cant") > -1) { //regular expression .match may be better
+              client.incr("cool");
+            }
         });
     }
 );
+
+var numberOfServerHits = 0;
+http.createServer(function (req, res) {
+    var response = "";
+    client.mget(["awesome", "cool"], function (error, resultCounts) {  //switched get to mget
+        if (error !== null) {
+            //handle error here
+            console.log("error: " + error);
+        } else {
+          numberOfServerHits = numberOfServerHits + 1;
+            res.writeHead(200, {"Content-Type": "text/plain"}); //  text/html ...
+            // response = "<html>";
+            // response = "<html>";
+            response += "this is the first line...\n";
+            response += "this server has been hit " + numberOfServerHits + "times...\n";
+            response += "there were recently " +resultCounts[0] + "awesome things on twitter...\n"
+            response += "The cool count is " + resultCounts[1];
+            // response = "</html>";
+            res.end(response);
+        }
+    });
+}).listen(3000);

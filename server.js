@@ -1,8 +1,15 @@
 var http = require('http');
 
 http.createServer(function (req, res) {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end('Hello World!\n');
+    client.get("awesome", function (error, awesomeCount) {
+        if (error !== null) {
+            //handle error here
+            console.log("error: " + error);
+        } else {
+            res.writeHead(200, {"Content-Type": "text/plain"});
+            res.end("The awesome count is " + awesomeCount);
+        }
+    });
 }).listen(3000);
 
 console.log('Server running on port 3000');
