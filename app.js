@@ -26,10 +26,10 @@ app.configure('development', function(){
     app.use(express.errorHandler());
 });
 
-app.get("/counts.json", function	(req, res) {
+app.get("/counts.json", function(req, res) {
     var happyCount = 0;
     var sadCount = 0;
-    redisClient.mget(trackedWords, function	(error, results) {
+    redisClient.mget(trackedWords, function(error, results) {
         var jsonObject = [];
         var i;
 	      if (error !== null) {
