@@ -1,8 +1,30 @@
 body {
+    background-color: #d5d2ff;
   padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 14px  Helvetica, Arial, sans-serif;
 }
 
 a {
   color: #00B7FF;
+}
+#tracker {
+  width:600px;
+  text-align: center;
+  margin:0 auto;
+}
+.happy {
+  float:left;
+width:280px;
+  
+
+  font-size:18pt;
+  padding: 2px 0 3px 10px;
+}
+
+.sad {
+  float:right;
+width:280px;
+  background-color: #d5d2ff;
+  font-size:18pt;
+  padding: 2px 0 3px 10px;
 }

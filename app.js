@@ -7,7 +7,7 @@ var express = require("express")
   , redisClient = require("redis").createClient()
   , app = express()
   , twitterWorker = require("./twitter.js")
-  , trackedWords = ["good", "bad", "yes", "no", "could", "should"];
+  , trackedWords = ["good", "bad", "yeah", "no", "could", "should", "thanks", "sorry"];
   // symmetry - for each happy word, please follow with opposite sad word
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -53,15 +53,19 @@ app.get("/counts.json", function	(req, res) {
             console.log("ERROR: " + error);
         } else {
           for (i = 0; i < trackedWords.length; i = i + 1) {
-            jsonObject.push( {
-                "key": trackedWords[i],
-		            "count":results[i]
-            });
             if (i%2 === 0){
-              happyCount = happyCount + parseInt(results[i], 10);
+                jsonObject.push( {
+                    "happyKey": trackedWords[i],
+		                "count":results[i],
+                });
+                happyCount = happyCount + parseInt(results[i], 10);
             }
             else {
-              sadCount = sadCount + parseInt(results[i], 10);
+                jsonObject.push( {
+                    "sadKey": trackedWords[i],
+		                "count":results[i],
+                });
+                sadCount = sadCount + parseInt(results[i], 10);
             }
           }
           jsonObject.push( {"happyCount":happyCount, "sadCount":sadCount} );
