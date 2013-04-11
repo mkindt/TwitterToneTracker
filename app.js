@@ -6,7 +6,8 @@ var express = require("express")
   , path = require("path")
   , redisClient = require("redis").createClient()
   , app = express()
-  , twitterWorker = require("./twitter.js");
+  , twitterWorker = require("./twitter.js")
+  , trackedWords = ["bleak", "leery"];
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -42,14 +43,14 @@ app.get("/login", function (req, res) {
 });
 
 app.get("/counts.json", function	(req, res) {
-    redisClient.mget(["shouldnt", "cant"], function	(error, results) {
+    redisClient.mget(["bleak", "leery"], function	(error, results) {
 	if (error !== null) {
             // handle error here                                                                                                                       
             console.log("ERROR: " + error);
         } else {
             var jsonObject = {
-		            "shouldnt":results[0],
-                "cant":results[1]
+		            "fake":results[0],
+                "leery":results[1]
             };
             // use res.json to return JSON objects instead of strings
             res.json(jsonObject);
@@ -66,7 +67,7 @@ app.get("/counts.json", function	(req, res) {
 // client.mget....
 // var response = "{'key':'value'}";
 // res.writehead(200, {"Content-Type": "application/json"});
-twitterWorker();
+twitterWorker(trackedWords);
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

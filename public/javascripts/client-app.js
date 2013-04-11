@@ -1,7 +1,7 @@
 var main = function () {
   $.getJSON("/counts.json", function (response){
-    $("body").append("<p>shouldnt: "+ response.shouldnt + "</p>");
-    $("body").append("<p>cant: "+ response.cant + "</p>");
+    $("body").append("<p>leery: "+ response.leery + "</p>");
+    $("body").append("<p>bleak: "+ response.bleak + "</p>");
   });
 };
 
