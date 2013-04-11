@@ -43,15 +43,16 @@ app.get("/login", function (req, res) {
 });
 
 app.get("/counts.json", function	(req, res) {
-    redisClient.mget(["bleak", "leery"], function	(error, results) {
-	if (error !== null) {
+    redisClient.mget(trackedWords, function	(error, results) {
+      var jsonObject = [];
+	    if (error !== null) {
             // handle error here                                                                                                                       
             console.log("ERROR: " + error);
         } else {
-            var jsonObject = {
-		            "fake":results[0],
-                "leery":results[1]
-            };
+            jsonObject.push( {
+                "key": trackedWords[0],
+		            "count":results[0]
+            });
             // use res.json to return JSON objects instead of strings
             res.json(jsonObject);
         }
