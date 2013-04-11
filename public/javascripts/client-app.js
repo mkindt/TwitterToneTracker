@@ -1,7 +1,10 @@
 var main = function () {
   $.getJSON("/counts.json", function (response){
-    $("body").append("<p>leery: "+ response.leery + "</p>");
-    $("body").append("<p>bleak: "+ response.bleak + "</p>");
+    response.forEach(function(result) {
+      if (result.key) {
+        $("body").append("<p>" + result.key + " : " + result.count + "</p>");
+      }
+    });
   });
 };
 
