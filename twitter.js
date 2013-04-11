@@ -25,7 +25,7 @@ var worker = function (words) {
                         console.log("indexOF");
                         console.log(word); 
                     }
-                    if (tweet.text.match(word) > -1) { 
+                    if (tweet.text.match(word)) { 
                         client.incr(word);
                         console.log("match");
                         console.log(word);

@@ -7,7 +7,7 @@ var express = require("express")
   , redisClient = require("redis").createClient()
   , app = express()
   , twitterWorker = require("./twitter.js")
-  , trackedWords = ["bleak", "leery"];
+  , trackedWords = ["soundtrack", "waves"];
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
